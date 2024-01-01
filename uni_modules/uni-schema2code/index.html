@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="author" content="dcloud">
+    <meta name="description" content="schema2code">
+    <meta name="Keywords" content="schema2code" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        :root {
+          --ff-sansserif: "Segoe UI", "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+          --ff-monospace: Monaco, Consolas, "Courier New", "Microsoft YaHei", monospace;
+          --body-bg: #fff;
+          --body-fg: #444;
+          --body-fc: #444;
+          --scroll-track-bg: transparent;
+          --scroll-track-bc: transparent;
+          --scroll-thumb-bg: #eee;
+          --scroll-thumb-bc: #eee;
+          --scroll-thumb-bg-h: #ddd;
+          --scroll-thumb-bg-a: #ccc;
+          --scroll-corner-bg: transparent;
+          --control-vf: #323232;
+          --control-vs: #202020;
+          --control-vc: #00bcd4;
+          --control-if: #555555;
+          --control-is: #202020;
+          --g-bg: #303030;
+          --g-fg: #888888;
+          --g-bc: #242424;
+          --link: #337ab7;
+          --line: #323232;
+          --icon-fg: #999;
+          --mark-bg: #ff0;
+          --mark-fg: #fff;
+          --cover-bg: rgba(0,0,0,.3);
+          --input-bg: #323232;
+          --input-fg: #c0c0c0;
+          --input-bc: #242424;
+          --input-bc-f: #181818;
+          --input-bs-f: #242424;
+          --check-bc: #202020;
+          --check-bc-c: #2c2c2c;
+          --panel-bg: #464646;
+          --panel-bc: #3c3c3c;
+          --tab-line: #e4e7ed;
+          --tab-line-a: #3aad4f;
+          --tab-text: #666;
+          --tab-text-a: #3aad4f;
+          --group-f: #3c3c3c;
+          --group-o: #2c2c2c;
+          --group-i: #646464;
+          --window-bg: #404040;
+          --window-bc: #424242;
+          --window-bc-a: #205864;
+          --select-bg: #282828;
+          --select-bc: #1b1b1c;
+          --button-bg: transparent;
+          --button-fg: #999;
+          --button-bc: #404040;
+          --button-bg-h: #505050;
+          --button-d-bg: #363636;
+          --button-d-fg: #bcbcbc;
+          --button-d-bc: #2a2a2a;
+          --button-d-bg-h: #484848;
+          --button-p-bg: #337ab7;
+          --button-p-fg: #ffffff;
+          --button-p-bc: #2e6da4;
+          --button-p-bg-h: #286090;
+          --button-p-bc-h: #204d74;
+          --button-s-bg: #5cb85c;
+          --button-s-fg: #ffffff;
+          --button-s-bc: #4cae4c;
+          --button-s-bg-h: #449d44;
+          --button-s-bc-h: #398439;
+          --loading-cb: rgba(0, 0, 0, 0.1);
+          --loading-bg: rgba(40,40,40,0.9);
+          --loading-fg: #dbdbdb;
+          --toolbar-bg: #3a3a3a;
+          --toolbar-line: #3d3d3d;
+          --toolbar-icon-h: rgba(192,192,192,.2);
+          --cell-item-bc: #3c3c3c;
+          --list-view-bg: #343434;
+          --list-view-bc: #2d2d2d;
+          --list-view-bg-h: #404040;
+          --list-view-fg-h: #999999;
+          --list-view-bg-s: #3b3b3b;
+          --list-view-bc-s: #00bcd4;
+          --list-view-fg-s: #cccccc;
+          --tree-f-fg: #cccccc;
+          --tree-f-fg-h: #00e0f0;
+          --tree-f-bg-e: #3c3c3c;
+          --tree-n-bc: rgba(200, 200, 200, .2);
+          --tree-n-bg-h: #dbdbdb;
+          --tree-n-bg-s: #CFB56A;
+          --scroll-bar: 8px;
+        }
+
+        *,*::before,*::after {box-sizing: border-box;}
+        html {font-size: 12px; font-family: var(--ff-sansserif);}
+        body {background-color: var(--body-bg); color: var(--body-fg); margin: 0; padding: 0;}
+
+        ::-webkit-scrollbar {width: var(--scroll-bar); height: var(--scroll-bar); background-color: transparent;}
+        ::-webkit-scrollbar-track {background-color: var(--scroll-track-bg);}
+        ::-webkit-scrollbar-thumb {background-color: var(--scroll-thumb-bg);}
+        ::-webkit-scrollbar-thumb:hover {background-color: var(--scroll-thumb-bg-h);}
+        ::-webkit-scrollbar-thumb:active {background-color: var(--scroll-thumb-bg-a);}
+        ::-webkit-scrollbar-corner {background: var(--scroll-corner-bg);}
+
+        [hidden] {display: none!important;}
+
+        .scrollbar-0::-webkit-scrollbar {display: none;}
+        .scrollbar-1::-webkit-scrollbar {width: 1px; height: 1px;}
+        .scrollbar-1::-webkit-scrollbar-track {border: none;}
+        .scrollbar-1::-webkit-scrollbar-thumb {border: none;}
+        .scrollbar-l::-webkit-scrollbar {width: 10px; height: 10px;}
+        .scroll-x {overflow: hidden; overflow-x: scroll!important;}
+        .scroll-y {overflow: hidden; overflow-y: scroll!important;}
+        .scroll-auto {overflow: auto!important;}
+        .scroll-auto-x {overflow: hidden; overflow-x: auto!important;}
+        .scroll-auto-y {overflow: hidden; overflow-y: auto!important;}
+        .scroll-hidden {overflow: hidden;}
+        .scroll-auto,.scroll-auto-x,.scroll-auto-y,.scroll-hidden,.scroll-x,.scroll-y {overscroll-behavior: contain;}
+        .scroll-line::-webkit-scrollbar-track {border: 1px solid var(--scroll-track-bc);}
+        .scroll-line::-webkit-scrollbar-thumb {border: 1px solid var(--scroll-thumb-bc);}
+
+        /* stylelint-disable selector-no-qualifying-type */
+        input,
+        button,
+        select,
+        optgroup,
+        textarea {
+          font-family: inherit;
+          font-size: inherit;
+          line-height: inherit;
+        }
+
+        textarea,
+        input:not([type=button]):not([type=checkbox]):not([type=color]):not([type=file]):not([type=hidden]):not([type=image]):not([type=range]):not([type=reset]):not([type=submit]):not([type=radio]) {
+          display: block;
+          width: 100%;
+          padding: 0.375rem 0.325rem;
+          font-size: 0.8125rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #212529;
+          background-color: transparent;
+          background-clip: padding-box;
+          border: 0 solid #e5e5e5;
+          border-bottom-width: 1px;
+        }
+        textarea:focus,
+        input:not([type=button]):not([type=checkbox]):not([type=color]):not([type=file]):not([type=hidden]):not([type=image]):not([type=range]):not([type=reset]):not([type=submit]):not([type=radio]):focus {
+          border-color: #3aad4f;
+          outline: 0;
+        }
+        textarea::placeholder,
+        input:not([type=button]):not([type=checkbox]):not([type=color]):not([type=file]):not([type=hidden]):not([type=image]):not([type=range]):not([type=reset]):not([type=submit]):not([type=radio])::placeholder {
+          color: #6c757d;
+          opacity: 1;
+        }
+        textarea:disabled, textarea[readonly],
+        input:not([type=button]):not([type=checkbox]):not([type=color]):not([type=file]):not([type=hidden]):not([type=image]):not([type=range]):not([type=reset]):not([type=submit]):not([type=radio]):disabled,
+        input:not([type=button]):not([type=checkbox]):not([type=color]):not([type=file]):not([type=hidden]):not([type=image]):not([type=range]):not([type=reset]):not([type=submit]):not([type=radio])[readonly] {
+          background-color: #f3f3f3;
+          opacity: 1;
+          border-bottom-width: 0;
+        }
+
+        textarea {
+          min-height: calc(1.5em + 0.75rem + 2px);
+          border-width: 1px;
+        }
+
+        input[type=radio], input[type=checkbox] {
+          width: 1em;
+          height: 1em;
+          margin-top: 0.25em;
+          vertical-align: top;
+          background-color: #fff;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+          border: 1px solid rgba(0, 0, 0, 0.25);
+          -webkit-appearance: none;
+          appearance: none;
+          color-adjust: exact;
+          transition: background-color 0.15s ease-in-out, background-position 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          input[type=radio], input[type=checkbox] {
+            transition: none;
+          }
+        }
+        input[type=radio]:active, input[type=checkbox]:active {
+          filter: brightness(90%);
+        }
+        input[type=radio]:focus, input[type=checkbox]:focus {
+          outline: 0;
+        }
+        input[type=radio]:checked, input[type=checkbox]:checked {
+          background-color: #3aad4f;
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+          border-color: #3aad4f;
+        }
+        input[type=radio]:disabled, input[type=checkbox]:disabled {
+          pointer-events: none;
+          filter: none;
+          opacity: 0.5;
+        }
+        input[type=checkbox] {
+          border-radius: 0.25em;
+        }
+        input[type=radio] {
+          border-radius: 50%;
+        }
+
+        .btn {
+          padding: 0.375rem 0.325rem;
+          font-size: 0.8125rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #212529;
+          background-color: transparent;
+          background-clip: padding-box;
+          border: 0 solid #e5e5e5;
+          border-bottom-width: 1px;
+        }
+
+        .flex {display: flex; flex-wrap: wrap; padding-left: var(--gutter); padding-right: var(--gutter);}
+        .flex > .flex-01,
+        .flex > .flex-02,
+        .flex > .flex-03,
+        .flex > .flex-04,
+        .flex > .flex-05,
+        .flex > .flex-06,
+        .flex > .flex-07,
+        .flex > .flex-08,
+        .flex > .flex-09,
+        .flex > .flex-10,
+        .flex > .flex-11,
+        .flex > .flex-12 {position: relative; width: 100%; padding-left: var(--gutter); padding-right: var(--gutter);}
+        .flex-np,
+        .flex-np > .flex-01,
+        .flex-np > .flex-02,
+        .flex-np > .flex-03,
+        .flex-np > .flex-04,
+        .flex-np > .flex-05,
+        .flex-np > .flex-06,
+        .flex-np > .flex-07,
+        .flex-np > .flex-08,
+        .flex-np > .flex-09,
+        .flex-np > .flex-10,
+        .flex-np > .flex-11,
+        .flex-np > .flex-12 {padding-left: 0; padding-right: 0;}
+        .flex-01 {flex: 0 0 8.333333%; max-width: 8.333333%;}
+        .flex-02 {flex: 0 0 16.666667%; max-width: 16.666667%;}
+        .flex-03 {flex: 0 0 25%; max-width: 25%;}
+        .flex-04 {flex: 0 0 33.333333%; max-width: 33.333333%;}
+        .flex-05 {flex: 0 0 41.666667%; max-width: 41.666667%;}
+        .flex-06 {flex: 0 0 50%; max-width: 50%;}
+        .flex-07 {flex: 0 0 58.333333%; max-width: 58.333333%;}
+        .flex-08 {flex: 0 0 66.666667%; max-width: 66.666667%;}
+        .flex-09 {flex: 0 0 75%; max-width: 75%;}
+        .flex-10 {flex: 0 0 83.333333%; max-width: 83.333333%;}
+        .flex-11 {flex: 0 0 91.666667%; max-width: 91.666667%;}
+        .flex-12 {flex: 0 0 100%; max-width: 100%;}
+        .flex-auto {flex: 0 0 auto; width: auto; max-width: none;}
+        .flex-fill {flex-basis: 0; flex: 1; flex-grow: 1; max-width: 100%;}
+        .flex-none {flex: none;}
+        @media (max-width: 768px) {
+          .flex-01-m {flex: 0 0 8.333333%; max-width: 8.333333%;}
+          .flex-02-m {flex: 0 0 16.666667%; max-width: 16.666667%;}
+          .flex-03-m {flex: 0 0 25%; max-width: 25%;}
+          .flex-04-m {flex: 0 0 33.333333%; max-width: 33.333333%;}
+          .flex-05-m {flex: 0 0 41.666667%; max-width: 41.666667%;}
+          .flex-06-m {flex: 0 0 50%; max-width: 50%;}
+          .flex-07-m {flex: 0 0 58.333333%; max-width: 58.333333%;}
+          .flex-08-m {flex: 0 0 66.666667%; max-width: 66.666667%;}
+          .flex-09-m {flex: 0 0 75%; max-width: 75%;}
+          .flex-10-m {flex: 0 0 83.333333%; max-width: 83.333333%;}
+          .flex-11-m {flex: 0 0 91.666667%; max-width: 91.666667%;}
+          .flex-12-m {flex: 0 0 100%; max-width: 100%;}
+          .flex-auto-m {flex: 0 0 auto; width: auto; max-width: none;}
+          .flex-fill-m {flex-basis: 0; flex: 1; flex-grow: 1; max-width: 100%;}
+          .flex-none-m {flex: none;}
+        }
+        .flex-r,.flex-c {display: flex; flex-wrap: nowrap;}
+        .flex-r {flex-direction: row;}
+        .flex-c {flex-direction: column;}
+        .flex-a,.flex-f {position: relative;}
+        .flex-a {flex: none;}
+        .flex-f {flex: 1;}
+        .flex-v {overflow: hidden;}
+        .flex-s {position: relative; padding-top: 100%;}
+        .flex-s .flex-s-c {position: absolute; left: 0; top: 0; right: 0; bottom: 0;}
+        .flex-s-4-3 {padding-top: 75%;}
+
+        .tabs {display: flex; flex-flow: column nowrap; overflow: hidden;}
+        .tab-h {cursor: default; display: flex; flex-flow: row nowrap; border-bottom: 2px solid; border-color: var(--tab-line);}
+        .tab-h,.tab {list-style: none; margin: 0; padding: 0;}
+        .tab-h .tab {min-height: 30px; line-height: 30px; padding-left: 1em; padding-right: 1em; color: var(--tab-text);}
+        .tab-h .tab.fill {flex: 1; text-align: center;}
+        .tab-h .tab.active {box-shadow: 0 2px var(--tab-line-a); color: var(--tab-text-a);}
+        .tab-h .tab.close {margin-left: 10px;}
+        .tab-c {flex: 1; position: relative; margin: 0; padding: 8px;}
+        .tab-content {position: absolute; left: 0; top: 0; right: 0; bottom: 0;}
+
+        .tree {cursor: default; display: block; font-family: var(--ff-monospace); user-select: none; -webkit-user-select: none;}
+        .tree, .tree ul {margin: 0; padding: 0; list-style: none;}
+        .tree li > ul {display: none;}
+        .tree-bold {position: relative; display: flex; flex-flow: row nowrap; align-items: center; line-height: 28px; opacity: .8;}
+        .tree-bold:hover {opacity: 1}
+        .tree-icon {margin-right: .4em;}
+        .tree-text {flex: 1;}
+        .tree-node {display: flex; flex-flow: row wrap; align-items: center; line-height: 28px;}
+        .tree-node .image {display: block; width: 100%;}
+        .tree-node:hover {background-color: var(--tree-n-bg-h); color: var(--body-fc);}
+        .tree-null0 {width: 0.5em;}
+        .tree-null1 {width: 1.9em;}
+        .tree-null2 {width: 3.2em;}
+        .tree-null3 {width: 4.6em;}
+        .tree-null4 {width: 6.0em;}
+        .tree-null5 {width: 7.4em;}
+        .tree-null6 {width: 8.6em;}
+        .tree-arrow {pointer-events: none; margin-right: 13px; opacity: .5; border-left: 4px dashed; border-top: 4px solid transparent; border-bottom: 4px solid transparent; transition: .3s;}
+        .tree-arrow-r {display: none; margin-left: 1em;}
+        .tree-selected {padding-left: 4px; box-shadow: inset 4px 0 0 0 var(--tree-n-bg-s);}
+        .tree-expanded > ul {display: block!important;}
+        .tree-expanded > .tree-bold .tree-arrow {transform: rotate(90deg);}
+        .tree-expanded > .tree-bold .tree-arrow-r {display: block;}
+        .tree-searched ul {display: block!important;}
+        .tree-searched .tree-bold {display: none;}
+        .tree-filtered {display: none!important;}
+        .tree-line ul {position: relative;}
+        .tree-line ul:before {position: absolute; content: ''; left: 1em; top: -15px; bottom: 0; border-style: none none none solid; border-width: 1px; opacity: .1;}
+
+        .u-s-t {user-select: text!important; -ms-user-select:initial; -moz-user-select: initial;}
+        .p-e-n {pointer-events: none;}
+        .a-i-s {align-items: flex-start!important;}
+        .a-i-c {align-items: center!important;}
+        .a-i-e {align-items: flex-end!important;}
+        .j-c-s {justify-content: flex-start!important;}
+        .j-c-c {justify-content: center!important;}
+        .j-c-e {justify-content: flex-end!important;}
+        .m-a-0 {margin: 0!important;}
+        .p-a-0 {padding: 0!important;}
+        .m-l-0 {margin-left: 0!important;}
+        .m-t-0 {margin-top: 0!important;}
+        .m-r-0 {margin-right: 0!important;}
+        .m-b-0 {margin-bottom: 0!important;}
+        .p-l-0 {padding-left: 0!important;}
+        .p-t-0 {padding-top: 0!important;}
+        .p-r-0 {padding-right: 0!important;}
+        .p-b-0 {padding-bottom: 0!important;}
+        .m-l-a {margin-left: auto!important;}
+        .m-t-a {margin-top: auto!important;}
+        .m-r-a {margin-right: auto!important;}
+        .m-b-a {margin-bottom: auto!important;}
+        .m-a-d {margin: 8px;}
+        .m-a-l {margin: 16px;}
+        .p-a-s {padding: 4px;}
+        .p-a-d {padding: 8px;}
+        .p-a-l {padding: 16px;}
+        .m-l-r {margin-left: 8px; margin-right: 8px;}
+        .m-t-b {margin-top: 8px; margin-bottom: 8px;}
+        .p-l-r {padding-left: 8px; padding-right: 8px;}
+        .p-t-b {padding-top: 8px; padding-bottom: 8px;}
+        .m-l-s {margin-left: 4px;}
+        .m-t-s {margin-top: 4px;}
+        .m-r-s {margin-right: 4px;}
+        .m-b-s {margin-bottom: 4px;}
+        .p-l-s {padding-left: 4px;}
+        .p-t-s {padding-top: 4px;}
+        .p-r-s {padding-right: 4px;}
+        .p-b-s {padding-bottom: 4px;}
+        .m-l-d {margin-left: 8px!important;}
+        .m-t-d {margin-top: 8px!important;}
+        .m-r-d {margin-right: 8px!important;}
+        .m-b-d {margin-bottom: 8px!important;}
+        .p-l-d {padding-left: 8px;}
+        .p-t-d {padding-top: 8px;}
+        .p-r-d {padding-right: 8px;}
+        .p-b-d {padding-bottom: 8px;}
+        .t-a-l {text-align: left;}
+        .t-a-c {text-align: center;}
+        .t-a-r {text-align: right;}
+        .t-o-e {overflow: hidden; text-overflow: ellipsis;}
+        .t-t-u {text-transform: uppercase;}
+        .v-d-n {display: none!important;}
+        .v-d-b {display: block!important;}
+        .v-d-i {display: inline-block;}
+        .x-m-v {display: none;}
+
+        .group {border: 1px solid #f0f0f0; overflow: hidden;}
+        .group-header {border-bottom: 1px solid #f0f0f0; padding: 10px;}
+        .group-title {display: inline-block; line-height: 1; font-size: 12px; font-weight: normal; margin: 0; padding: 0;}
+
+        .app {display: flex; flex-direction: column; position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden;}
+
+        .group-field {min-width: 160px;}
+        .group-tree {min-width: 250px;}
+
+        .collecton {margin-left: 5px; color: #3aad4f;}
+        .field-item {display: block; padding-top: 5px; padding-bottom: 5px;}
+
+        pre {margin: 0;}
+
+        .authorid {font-size: 14px; margin-left: 5px; padding: 2px 10px;}
+        .authorid-error {color: red;}
+
+        .hljs{display:block;overflow-x:auto;padding:.5em;background:#fdf6e3;color:#657b83}.hljs-comment,.hljs-quote{color:#93a1a1}.hljs-addition,.hljs-keyword,.hljs-selector-tag{color:#859900}.hljs-doctag,.hljs-literal,.hljs-meta .hljs-meta-string,.hljs-number,.hljs-regexp,.hljs-string{color:#2aa198}.hljs-name,.hljs-section,.hljs-selector-class,.hljs-selector-id,.hljs-title{color:#268bd2}.hljs-attr,.hljs-attribute,.hljs-class .hljs-title,.hljs-template-variable,.hljs-type,.hljs-variable{color:#b58900}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-meta .hljs-keyword,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-subst,.hljs-symbol{color:#cb4b16}.hljs-built_in,.hljs-deletion{color:#dc322f}.hljs-formula{background:#eee8d5}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+    </style>
+</head>
+<body>
+    <template id="main">
+        <x-tabs class="app tab">
+            <ul slot="h" class="tab-h">
+                <div class="tab"><%=locale.projectType1%></div>
+                <div class="tab"><%=locale.projectType2%></div>
+            </ul>
+            <ul slot="c" class="tab-c m-t-d p-a-0">
+                <div class="flex-r tab-content tab-project">
+                    <div class="group flex-c group-field">
+                        <div class="group-header">
+                            <h3 class="group-title"><%=locale.collection%>:</h3><span class="collecton"></span>
+                        </div>
+                        <div class="p-l-r p-t-b">
+                            <label>
+                                <input type="checkbox" class="m-r-d select-all-field" checked /><%=locale.checkAll%>
+                            </label>
+                        </div>
+                        <div class="flex-f fields scroll-auto-y"></div>
+                    </div>
+                    <div class="group flex-c m-l-r group-tree">
+                        <div class="group-header">
+                            <h3 class="group-title"><%=locale.exportFileList%></h3>
+                        </div>
+                        <div class="flex-r m-t-b project-type">
+                            <label>
+                                <input type="radio" name="project_type" data-id="vue" checked><%=locale.vuePage%>
+                            </label>
+                            <label class="m-l-d">
+                                <input type="radio" name="project_type" data-id="nvue"><%=locale.nvuePage%>
+                            </label>
+                        </div>
+                        <div class="flex-r m-t-b mode-radios">
+                            <label>
+                                <input type="radio" name="uni" data-id="0" checked><%=locale.projectMode%>
+                            </label>
+                            <label class="m-l-d">
+                                <input type="radio" name="uni" data-id="1"><%=locale.uniModulesMode%>
+                            </label>
+                        </div>
+                        <div class="flex-r a-i-c m-a-d author" hidden>
+                            <div><%=locale.pluginID%>: </div><input class="flex-f authorid" type="text" />
+                        </div>
+                        <div class="p-l-r authorid-error"></div>
+                        <div class="flex-f scroll-auto-y">
+                            <x-tree class="tree tree-project" data-id="project"></x-tree>
+                            <x-tree class="tree tree-uni-modules" data-id="uni-modules" hidden></x-tree>
+                        </div>
+                    </div>
+                    <div class="group flex-f flex-c">
+                        <div class="group-header">
+                            <h3 class="group-title"><%=locale.filePreview%></h3>
+                        </div>
+                        <div class="flex-f flex-r scroll-hidden">
+                            <pre class="flex-f flex-r scroll-auto">
+                                <code class="flex-f project-file html"></code>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-r tab-content tab-project-admin">
+                    <div class="group flex-c group-field">
+                        <div class="group-header">
+                            <h3 class="group-title"><%=locale.collection%>:</h3><span class="collecton"></span>
+                        </div>
+                        <div class="p-l-r p-t-b">
+                            <label>
+                                <input type="checkbox" class="m-r-d select-all-field" checked /><%=locale.checkAll%>
+                            </label>
+                        </div>
+                        <div class="flex-f fields scroll-auto-y"></div>
+                    </div>
+                    <div class="group flex-c m-l-r group-tree">
+                        <div class="group-header">
+                            <h3 class="group-title"><%=locale.exportFileList%></h3>
+                        </div>
+                        <div class="flex-r m-t-b mode-radios">
+                            <label>
+                                <input type="radio" name="admin" data-id="0" checked><%=locale.projectMode%>
+                            </label>
+                            <label class="m-l-d">
+                                <input type="radio" name="admin" data-id="1"><%=locale.uniModulesMode%>
+                            </label>
+                        </div>
+                        <div class="flex-r a-i-c m-a-d author" hidden>
+                            <div><%=locale.pluginID%>: </div><input class="flex-f authorid" type="text" />
+                        </div>
+                        <div class="p-l-r authorid-error"></div>
+                        <div class="flex-f scroll-auto-y">
+                            <x-tree class="tree tree-project" data-id="project"></x-tree>
+                            <x-tree class="tree tree-uni-modules" data-id="uni-modules" hidden></x-tree>
+                        </div>
+                    </div>
+                    <div class="group flex-f flex-c">
+                        <div class="group-header">
+                            <h3 class="group-title"><%=locale.filePreview%></h3>
+                        </div>
+                        <div class="flex-f flex-r scroll-hidden">
+                            <pre class="flex-f flex-r scroll-auto">
+                                <code class="flex-f project-file html"></code>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </x-tabs>
+    </template>
+    <!--js-->
+</body>
+</html>

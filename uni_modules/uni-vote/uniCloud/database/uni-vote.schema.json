@@ -1,0 +1,93 @@
+//  问卷表
+{
+	"bsonType": "object",
+	"required": ["title"],
+	"permission": {
+		"read": true,
+		"create": false,
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "存储文档 ID（投票活动名称 ID），系统自动生成"
+		},
+		"title": {
+			"bsonType": "string",
+			"description": "问卷或投票名称",
+			"label": "名称",
+			"trim": "both"
+		},
+		"description": {
+			"bsonType": "string",
+			"description": "简介",
+			"label": "简介",
+			"trim": "both"
+		},
+		"sort": {
+			"bsonType": "int",
+			"description": "显示顺序",
+			"label": "排序"
+		},
+		"count": {
+			"bsonType": "int",
+			"description": "此问题下投票项或问卷题目统计",
+			"label": "子项总数",
+			"defaultValue": 0
+		},
+		"status": {
+			"bsonType": "int",
+			"description": "活动状态：0关闭，1启用，2已完成",
+			"label": "状态",
+			"defaultValue": 1, 
+			"enum": [
+				{
+					"value": 0,
+					"text": "关闭"
+				},
+				{
+					"value": 1,
+					"text": "启用"
+				},
+				{
+					"value": 2,
+					"text": "已完成"
+				}
+			]
+		},
+		"period_of_validity":{
+			"bsonType": "int",
+			"description": "有效期：0长期（不限制），1设置时间段",
+			"label": "有效期",
+			"defaultValue": 0,
+			"enum": [{
+					"value": 0,
+					"text": "长期"
+				},
+				{
+					"value": 1,
+					"text": "时间段"
+				}
+			]
+		},
+		"start_date": {
+			"bsonType": "timestamp",
+			"description": "开始时间（仅period_of_validity的值为1时有效）",
+			"label": "开始时间"
+		},
+		"end_date": {
+			"bsonType": "timestamp",
+			"description": "结束时间（仅period_of_validity的值为1时有效）",
+			"label": "结束时间"
+		},
+		"create_date": {
+			"bsonType": "timestamp",
+			"description": "创建时间",
+			"label": "创建时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
+		}
+	},
+	"version": "0.0.1"
+}

@@ -1,0 +1,42 @@
+// 投票问卷记录数据库表
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": false,
+		"create": false,
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"user_id":{
+			"bsonType": "string",
+			"description": "投票人，用户id",
+			"foreignKey": "uni-id-users._id"
+		},
+		"vote_id": {
+			"bsonType": "string",
+			"title": "问卷id",
+			"description": "所属问卷id",
+			"foreignKey": "uni-vote._id"
+		},
+		"count": {
+			"bsonType": "int",
+			"description": "此问卷参与次数",
+			"label": "投票数",
+			"trim": "both",
+			"defaultValue": 0
+		},
+		"create_date": {
+			"bsonType": "timestamp",
+			"description": "创建时间",
+			"label": "创建时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
+		}
+	}
+}

@@ -1,0 +1,70 @@
+// 投票问题数据库表
+{
+	"bsonType": "object",
+	"required": ["title","type"],
+	"permission": {
+		"read": true,
+		"create": false,
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"vote_id": {
+			"bsonType": "string",
+			"description": "所属问卷或投票问题",
+			"foreignKey": "uni-vote._id"
+		},
+		"title": {
+			"bsonType": "string",
+			"description": "问卷或投票项问题、需求描述",
+			"label": "问题",
+			"trim": "both"
+		},
+		"type": {
+			"bsonType": "string",
+			"description": "如果是投票，选项类型：radio单选，checkbox多选",
+			"label": "选项类型",
+			"defaultValue": "radio",
+			"enum": [{
+					"value": "radio",
+					"text": "单选"
+				},
+				{
+					"value": "checkbox",
+					"text": "多选"
+				}
+			]
+		},
+		"sort": {
+			"bsonType": "int",
+			"description": "显示顺序",
+			"label": "排序"
+		},
+		"status": {
+			"bsonType": "int",
+			"description": "状态：0关闭，1启用",
+			"label": "状态",
+			"defaultValue": 1,
+			"enum": [{
+					"value": 0,
+					"text": "关闭"
+				},
+				{
+					"value": 1,
+					"text": "启用"
+				}
+			]
+		},
+		"create_date": {
+			"bsonType": "timestamp",
+			"description": "创建时间",
+			"label": "创建时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
+		}
+	}
+}

@@ -1,0 +1,10 @@
+{
+  "clientAppIds": ["__UNI__6FC9109"], 
+  "contentSecurity": { 
+    "allowCheckType": ["content", "image"]
+  },
+  "adConfig": {
+    "securityKey": "Xxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "watchAdUniqueType": "device"
+  }
+}

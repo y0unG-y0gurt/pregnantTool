@@ -1,0 +1,42 @@
+{
+    "bsonType":"object",
+    "required":[],
+    "permission":{
+        "read":"doc.user_id == auth.uid",
+        "create":"auth.uid != null",
+        "update":false,
+        "delete":"doc.user_id == auth.uid"
+        },
+    "properties":{
+        "_id":{
+            "description":"ID，系统自动生成"
+            },
+        "user_id":{
+            "bsonType":"string",
+            "foreignKey": "uni-id-users._id",
+            "forceDefaultValue":{
+                "$env":"uid"
+            }
+        },
+        "sport_type":{
+            "description":"运动类型",
+            "bsonType": "string"
+        },
+        "sport_duriation":{
+            "description":"运动时长"
+        },
+        "highest_hb":{
+            "description":"最高心率"
+        },
+        "feeling":{
+            "description":"感受"
+        },
+        "date":{
+            "description": "日期",
+            "bsonType": "string"
+        },
+        "state":{
+            "bsonType": "bool"
+        }
+    }
+}
